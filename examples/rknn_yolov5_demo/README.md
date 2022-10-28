@@ -89,6 +89,9 @@ cd /userdata/rknn_yolov5_demo_Linux/
 
 export LD_LIBRARY_PATH=./lib
 ./rknn_yolov5_demo model/<TARGET_PLATFORM>/yolov5s-640-640.rknn model/bus.jpg
+
+# camera
+    ./rknn_yolov5_video_demo camear_id # 0 to open /dev/video0
 ```
 
 Note: Try searching the location of librga.so and add it to LD_LIBRARY_PATH if the librga.so is not found on the lib folder.

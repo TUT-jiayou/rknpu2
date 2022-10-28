@@ -18,6 +18,10 @@ fi
 
 cd ${BUILD_DIR}
 cmake ../.. -DCMAKE_SYSTEM_NAME=Linux -DTARGET_SOC=${TARGET_SOC}
-make -j4
+make -j20
 make install
 cd -
+if [[ -d install/rknn_yolov5_video_demo_Linux/lib ]]; then
+cp  ../3rdparty/opencv_4/lib64/* install/rknn_yolov5_video_demo_Linux/lib
+fi
+# echo ${PWD}

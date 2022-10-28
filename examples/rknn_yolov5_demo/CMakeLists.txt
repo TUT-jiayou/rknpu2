@@ -44,9 +44,11 @@ else()
   if(LIB_ARCH STREQUAL "armhf")
     set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/../3rdparty/opencv/opencv-linux-armhf/share/OpenCV)
   else()
-    set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/../3rdparty/opencv/opencv-linux-aarch64/share/OpenCV)
+    # set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/../3rdparty/opencv/opencv-linux-aarch64/share/OpenCV)
+    set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/../3rdparty/opencv_4/share/OpenCV)
   endif()
 endif()
+message(STATUS ${OpenCV_DIR})
 find_package(OpenCV REQUIRED)
 
 #rga
@@ -85,6 +87,17 @@ target_link_libraries(rknn_yolov5_demo
   ${OpenCV_LIBS}
 )
 
+# use opencv camera load image data
+add_executable(rknn_yolov5_video_demo
+        src/video_main.cpp
+        src/postprocess.cc
+)
+
+target_link_libraries(rknn_yolov5_video_demo
+  ${RKNN_RT_LIB}
+  ${RGA_LIB}
+  ${OpenCV_LIBS}
+)
 
 # install target and libraries
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install/rknn_yolov5_demo_${CMAKE_SYSTEM_NAME})
@@ -92,4 +105,17 @@ install(TARGETS rknn_yolov5_demo DESTINATION ./)
 
 install(PROGRAMS ${RKNN_RT_LIB} DESTINATION lib)
 install(PROGRAMS ${RGA_LIB} DESTINATION lib)
+install(DIRECTORY model DESTINATION ./)
+
+#install rknn_yolov5_video_demo
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install/rknn_yolov5_video_demo_${CMAKE_SYSTEM_NAME})
+install(TARGETS  rknn_yolov5_video_demo DESTINATION ./)
+
+install(PROGRAMS ${RKNN_RT_LIB} DESTINATION lib)
+install(PROGRAMS ${RGA_LIB} DESTINATION lib)
+# foreach(lib ${OpenCV_LIBS})
+# install(PROGRAMS ${OpenCV_DIR}/../../lib64/${lib} DESTINATION lib)
+# endforeach()
+# message(STATUS  "TUT " ${OpenCV_LIBS})
+# install(PROGRAMS ${OpenCV_LIBS} DESTINATION lib)
 install(DIRECTORY model DESTINATION ./)
